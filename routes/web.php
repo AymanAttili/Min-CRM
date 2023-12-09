@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CompanyControler;
-use App\Http\Controllers\EmployeeControler;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserControler;
+use App\Http\Controllers\UserController;
 use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +31,7 @@ Route::get('/home', function () {
 
 Route::middleware(['auth', 'user'])->group(function () {
     Route::redirect('/', '/user');
-    Route::get('/user', [UserControler::class, 'show'])->name('user.show');
+    Route::get('/user', [UserController::class, 'show'])->name('user.show');
 });
 
 Route::middleware('auth')->group(function () {
@@ -46,7 +46,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 
-Route::resource('company', CompanyControler::class);
-Route::resource('employee', EmployeeControler::class);
+Route::resource('company', CompanyController::class);
+Route::resource('employee', EmployeeController::class);
 
 require __DIR__.'/auth.php';

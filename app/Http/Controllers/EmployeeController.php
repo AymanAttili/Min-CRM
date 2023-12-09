@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class EmployeeControler extends Controller
+class EmployeeController extends Controller
 {
     public function index()
     {
@@ -26,12 +26,26 @@ class EmployeeControler extends Controller
     public function store(Request $request)
     {
 
-        $request->merge(['company_id' => Auth::user()->employee->company_id]);
+        if($request->has('email')) {
+            $userController = new UserController();
+            $userRequest = Request::create('/user', 'POST', $request->only(['email', 'password', 'password_confirmation']));
+            $user_id = $userController->store($userRequest);
+
+            $request->merge([
+                'user_id' => $user_id,
+            ]);
+        }
+
+
+        $request->merge([
+            'company_id' => Auth::user()->employee->company_id,
+            ]);
 
         $employee = $request->validate([
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
             'company_id' => ['required', Rule::exists('companies', 'id')],
+            'user_id' => ['nullable', Rule::exists('users', 'id')],
             'phone' => ['max:14']
         ]);
 
@@ -52,17 +66,33 @@ class EmployeeControler extends Controller
 
     public function update(Request $request, Employee $employee)
     {
+        if($request->has('email')) {
+            $userController = new UserController();
+            if(!$employee->user) {
+                $userRequest = Request::create('/user', 'POST', $request->only(['email', 'password', 'password_confirmation']));
+                $user_id = $userController->store($userRequest);
 
-//        $employee->user->update(['email' => $request->input('email')]);
+                $request->merge([
+                    'user_id' => $user_id,
+                ]);
+            }
+            else{
+                $userRequest = Request::create('/user', 'PUT', $request->only(['email', 'password', 'password_confirmation']));
+                $userController->update($userRequest, $employee->user);
+            }
+        }
 
 
-        $request->validate([
+
+        $updatedData = $request->validate([
             'firstName' => ['required', 'string', 'max:255'],
-            'lastName' => ['required', 'string', 'max:255']
+            'lastName' => ['required', 'string', 'max:255'],
+            'user_id' => ['nullable', Rule::exists('users', 'id')],
+            'phone' => ['nullable']
         ]);
 
 
-        $employee->update($request->except(['email']));
+        $employee->update($updatedData);
 
         return redirect()->route('user.show')->with('success', 'Employee updated successfully!');
     }

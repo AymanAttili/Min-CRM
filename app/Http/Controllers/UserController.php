@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
-class UserControler extends Controller
+class UserController extends Controller
 {
     public function index()
     {
@@ -29,9 +29,7 @@ class UserControler extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        User::factory()->create($request->all());
-
-        return redirect()->route('users.index')->with('success', 'User created successfully!');
+        return User::factory()->create($request->except('password_confirmation'))->id;
     }
 
     public function show()
@@ -54,9 +52,9 @@ class UserControler extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $user->update($request->all());
+        $user->update($request->except('password_confirmation'));
 
-        return redirect()->route('user.index')->with('success', 'user updated successfully!');
+        return redirect()->back()->with('success', 'user updated successfully!');
     }
 
     public function destroy(User $user)

@@ -7,7 +7,7 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class CompanyControler extends Controller
+class CompanyController extends Controller
 {
     public function index()
     {

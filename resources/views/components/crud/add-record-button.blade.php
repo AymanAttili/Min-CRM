@@ -70,6 +70,38 @@
                 <input type="text" name="phone" id="phone" class="mt-1 p-2 border rounded-md w-full" required>
             </div>
 
+
+            <div class="mt-4">
+                <label for="editUser" class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-1">
+                    {{ __('Add user info') }}
+                </label>
+
+
+                <input id="editUser"  type="checkbox" onclick="userForm.classList.contains('hidden')? userForm.classList.remove('hidden'): userForm.classList.add('hidden'); email.disabled = password.disabled = password_confirmation.disabled = !email.disabled">
+
+                <div id="userForm" name="userForm" class="hidden">
+                    <div class="mt-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {{ __('Email') }}
+                        </label>
+                        <input type="email" name="email" id="email" class="mt-1 p-2 border rounded-md w-full" disabled>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {{ __('Password') }}
+                        </label>
+                        <input type="password" name="password" id="password" class="mt-1 p-2 border rounded-md w-full " disabled>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {{ __('Confirn Password') }}
+                        </label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 p-2 border rounded-md w-full" disabled>
+                    </div>
+                </div>
+            </div>
         @endif
 
 
