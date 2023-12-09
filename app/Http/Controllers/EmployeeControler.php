@@ -53,7 +53,7 @@ class EmployeeControler extends Controller
     public function update(Request $request, Employee $employee)
     {
 
-        $employee->user->update(['email' => $request->input('email')]);
+//        $employee->user->update(['email' => $request->input('email')]);
 
 
         $request->validate([

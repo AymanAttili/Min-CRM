@@ -36,12 +36,12 @@
             <input type="text" name="phone" id="phone" value="{{ $record->phone }}" class="mt-1 p-2 border rounded-md w-full" required>
         </div>
 
-        <div class="mt-4">
-            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                {{ __('Email') }}
-            </label>
-            <input type="email" name="email" id="email" value="{{ $record?->user?->email }}" class="mt-1 p-2 border rounded-md w-full" required>
-        </div>
+{{--        <div class="mt-4">--}}
+{{--            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">--}}
+{{--                {{ __('Email') }}--}}
+{{--            </label>--}}
+{{--            <input type="email" name="email" id="email" value="{{ $record?->user?->email }}" class="mt-1 p-2 border rounded-md w-full" required>--}}
+{{--        </div>--}}
 
         <div class="mt-6 flex justify-end">
             <x-secondary-button x-on:click="$dispatch('close')">
